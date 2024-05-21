@@ -19,8 +19,9 @@ function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setErrors(LoginValidation(values));
-    if (errors.email === "" && errors.password === "") {
+    const err = LoginValidation(values);
+    setErrors(err);
+    if (err.email === "" && err.password === "") {
       axios
         .post("http://localhost:8081/login", values)
         .then((res) => {

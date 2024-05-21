@@ -20,7 +20,6 @@ app.post("/signup", (req, res) => {
   const values = [req.body.name, req.body.email, req.body.password];
   db.query(sql, [values], (err, data) => {
     if (err) {
-      console.log(err);
       return res.json(err);
     }
     return res.json(data);
@@ -30,9 +29,8 @@ app.post("/signup", (req, res) => {
 app.post("/login", (req, res) => {
   const sql = "SELECT * FROM login WHERE `email` = ? AND `password` = ?";
   db.query(sql, [req.body.email, req.body.password], (err, data) => {
-    /* const errors = validationResult(req); */
     if (err) {
-      return res.json("Error");
+      return res.json(err);
     }
     if (data.length > 0) {
       return res.json("Success");
