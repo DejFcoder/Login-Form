@@ -1,7 +1,6 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
-const { check, validationResult } = require("express-validator");
 
 const app = express();
 app.use(cors());
