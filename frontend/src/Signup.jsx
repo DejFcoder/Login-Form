@@ -13,6 +13,7 @@ function Signup() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
+  const err = SignupValidation(values);
 
   const handleInput = (event) => {
     setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
@@ -20,12 +21,16 @@ function Signup() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setErrors(SignupValidation(values));
+    setErrors(err);
     if (errors.name === "" && errors.email === "" && errors.password === "") {
       axios
         .post("http://localhost:8081/signup", values)
-        .then((res) => {
+        .then(res => {
+          if (res.data.error) {
+            console.log("Signup Error:", res.data.details);
+          } else {
             navigate("/");
+          }
         })
         .catch((err) => console.log(err));
     }
@@ -43,7 +48,7 @@ function Signup() {
             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
             alt="logo"
           />
-          SIgnUp Form
+          SignUp Form
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -72,7 +77,7 @@ function Signup() {
                   onChange={handleInput}
                 />
                 {errors.name && (
-                  <span classNameName="text-red-700 text-xs">{errors.name}</span>
+                  <span className="text-red-700 text-xs">{errors.name}</span>
                 )}
               </div>
               <div>
@@ -92,7 +97,7 @@ function Signup() {
                   onChange={handleInput}
                 />
                 {errors.email && (
-                  <span classNameName="text-red-700 text-xs">{errors.email}</span>
+                  <span className="text-red-700 text-xs">{errors.email}</span>
                 )}
               </div>
               <div>
@@ -112,7 +117,7 @@ function Signup() {
                   onChange={handleInput}
                 />
                 {errors.password && (
-                  <span classNameName="text-red-700 text-xs">
+                  <span className="text-red-700 text-xs">
                     {errors.password}
                   </span>
                 )}
