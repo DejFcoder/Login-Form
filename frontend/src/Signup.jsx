@@ -13,24 +13,23 @@ function Signup() {
   const navigate = useNavigate();
 
   const [errors, setErrors] = useState({});
-  const err = SignupValidation(values);
 
   const handleInput = (event) => {
-    setValues((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+    setValues((prev) => ({
+      ...prev,
+      [event.target.name]: [event.target.value],
+    }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const err = SignupValidation(values);
     setErrors(err);
-    if (errors.name === "" && errors.email === "" && errors.password === "") {
+    if (err.name === "" && err.email === "" && err.password === "") {
       axios
         .post("http://localhost:8081/signup", values)
-        .then(res => {
-          if (res.data.error) {
-            console.log("Signup Error:", res.data.details);
-          } else {
-            navigate("/");
-          }
+        .then((res) => {
+          navigate("/");
         })
         .catch((err) => console.log(err));
     }
